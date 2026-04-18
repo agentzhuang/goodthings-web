@@ -96,23 +96,34 @@ const removeFile = (index) => {
   previewFiles.value.splice(index, 1)
 }
 
+const MAX_FILE_SIZE = 50 * 1024 * 1024 // 50MB
+const MAX_FILES = 10
+
 const handleUpload = async () => {
   if (!title.value) {
     alert('请输入标题')
     return
   }
-  
+  if (previewFiles.value.length > MAX_FILES) {
+    alert(`最多上传${MAX_FILES}个文件`)
+    return
+  }
+
   uploading.value = true
-  
-  // 模拟上传
-  setTimeout(() => {
+  try {
+    // TODO: 调用真实API上传
+    setTimeout(() => {
+      uploading.value = false
+      alert('发布成功！')
+      previewFiles.value = []
+      title.value = ''
+      description.value = ''
+      tagsInput.value = ''
+    }, 1500)
+  } catch (e) {
     uploading.value = false
-    alert('发布成功！')
-    previewFiles.value = []
-    title.value = ''
-    description.value = ''
-    tagsInput.value = ''
-  }, 1500)
+    alert('上传失败')
+  }
 }
 </script>
 
